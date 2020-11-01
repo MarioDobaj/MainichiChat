@@ -27,7 +27,7 @@ SECRET_KEY = 'n4^io_q^dr+*mf2iw3v(edv)e7z6d8z7cqqx0xej6vd4a&t-ml'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'mainichi-chat.herokuapp.com', 'mainichi.tech']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'mainichi-chat.herokuapp.com', 'mainichi.tech', 'www.mainichi.tech']
 
 
 # Application definition
