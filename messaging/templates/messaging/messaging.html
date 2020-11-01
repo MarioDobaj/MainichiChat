@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-lg-offset-1 col-md-offset-1 col-sm-7 col-xs-12">
+                <div class="demo-card" style="margin: auto; margin-top: 30px;">
+                    <h6 class="text-muted">Who do you want to talk to?</h6>
+                    <ul class="list-unstyled follows">
+                        <li>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3 col-xs-3">
+                                    <img src="{% static 'assets/img/flume.jpg' %}" alt="Circle Image" class="img-circle img-no-padding img-responsive">
+                                </div>
+                                <div class="col-lg-9 col-md-9 col-xs-9 description">
+                                    <h5>John Travolta</h5>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3 col-xs-3">
+                                    <img src="{% static 'assets/img/chet_faker_2.jpg' %}" alt="Circle Image" class="img-circle img-no-padding img-responsive">
+                                </div>
+                                <div class="col-lg-9 col-md-9 col-xs-9 description">
+                                    <h5>Chet Faker</h5>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3 col-xs-3">
+                                    <img src="{% static 'assets/img/drake.jpg' %}" alt="Circle Image" class="img-circle img-no-padding img-responsive">
+                                </div>
+                                <div class="col-lg-9 col-md-9 col-xs-9 description">
+                                    <h5>Drake</h5>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3 col-xs-3">
+                                    <img src="{% static 'assets/img/cristina.jpg' %} " alt="Circle Image" class="img-circle img-no-padding img-responsive">
+                                </div>
+                                <div class="col-lg-9 col-md-9 col-xs-9 description">
+                                    <h5>Cristina Conacel</h5>
+                                </div>
+                            </div>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-7 col-md-7 col-sm-5 col-xs-12">
+                <div class="demo-card" style="margin: auto; width: 100%; max-width: 100%; margin-top: 30px; max-height: 650px; overflow-y: scroll;">
+                    <div class="tweets">
+                        
+                        <div class="media">
+                            <a class="pull-left" href="#">
+                                <div class="avatar">
+                                    <img class="media-object" alt="Tim Picture" src="{% static 'assets/img/rihanna.jpg' %}">
+                                </div>
+                            </a>
+                            <div class="media-body">
+                                <strong>Rihanna</strong>
+                                <h5 class="media-heading"><small>21.10.2020 15:40:20</small></h5>
+                                <p>
+                                Hello hello bitch better have my mistletoe #rihannaxstance
+                                bitch better have my mistletoe #rihannaxstance
+                                </p>
+
+                            </div>
+                        </div> 
+
+                        
+                        <div class="media">
+                            <a class="pull-right" href="#">
+                                <div class="avatar">
+                                    <img class="media-object" alt="Tim Picture" src="{% static 'assets/img/khaled.jpg' %}">
+                                </div>
+                            </a>
+                            <div class="media-body">
+                                <strong>Khaleed</strong>
+                                <h5 class="media-heading"><small>21.10.2020 15:43:11</small></h5>
+                                <p>
+                                bitch better have my mistletoe #rihannaxstance
+                                bitch better have my mistletoe #rihannaxstance
+                                bitch better have my mistletoe #rihannaxstance
+                                bitch better have my mistletoe #rihannaxstance
+                                </p>
+
+                            </div>
+                        </div> 
+
+                        <div class="media">
+                            <a class="pull-left" href="#">
+                                <div class="avatar">
+                                    <img class="media-object" alt="Tim Picture" src="{% static 'assets/img/rihanna.jpg' %}">
+                                </div>
+                            </a>
+                            <div class="media-body">
+                                <strong>Rihanna</strong>
+                                <h5 class="media-heading"><small>21.10.2020 15:44:23</small></h5>
+                                <p>
+                                bitch better have my mistletoe #rihannaxstance
+                                </p>
+
+                            </div>
+                        </div> 
+
+                        <div class="media">
+                            <a class="pull-left" href="#">
+                                <div class="avatar">
+                                    <img class="media-object" alt="Tim Picture" src="{% static 'assets/img/rihanna.jpg' %}">
+                                </div>
+                            </a>
+                            <div class="media-body">
+                                <strong>Rihanna</strong>
+                                <h5 class="media-heading"><small>21.10.2020 15:44:43</small></h5>
+                                <p>
+                                bitch better have my mistletoe lalala
+                                bitch better have my mistletoe #rihannaxstance
+                                bitch better have my mistletoe #rihannaxstance
+                                bitch better have my mistletoe #rihannaxstance
+                                bitch better have my mistletoe #rihannaxstance
+                                bitch better have my mistletoe #rihannaxstance
+                                bitch better have my mistletoe #rihannaxstance
+                                bitch better have my mistletoe #rihannaxstance
+                                </p>
+
+                            </div>
+                        </div> 
+
+                        <div style="margin-top: 10px">
+                                <textarea class="form-control" placeholder="Say something nice..." rows="4"></textarea>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> 
+
+{% endblock content %}
