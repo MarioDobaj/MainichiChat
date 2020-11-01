@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 
 from .models import Question
 
-@login_required(login_url='/login/')
+@login_required(login_url='/')
 def index(request):
     latest_question_list = Question.objects.order_by('-pub_date')[:5]
     context = {
