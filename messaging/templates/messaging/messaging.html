@@ -3,52 +3,23 @@
 
 {% block content %}
 
-    <div class="container">
+    <div class="container" id="messagingapp">
         <div class="row">
             <div class="col-lg-4 col-md-4 col-lg-offset-1 col-md-offset-1 col-sm-7 col-xs-12">
                 <div class="demo-card" style="margin: auto; margin-top: 30px;">
                     <h6 class="text-muted">Who do you want to talk to?</h6>
                     <ul class="list-unstyled follows">
-                        <li>
-                            <div class="row">
+                        <li v-for="user in users">
+                            <div class="row" v-on:click="selectConversation(user.id)">
                                 <div class="col-lg-3 col-md-3 col-xs-3">
                                     <img src="{% static 'assets/img/flume.jpg' %}" alt="Circle Image" class="img-circle img-no-padding img-responsive">
                                 </div>
                                 <div class="col-lg-9 col-md-9 col-xs-9 description">
-                                    <h5>John Travolta</h5>
+                                    <h5>[[ user.first_name ]] [[ user.last_name ]]</h5>
                                 </div>
                             </div>
                         </li>
-                        <li>
-                            <div class="row">
-                                <div class="col-lg-3 col-md-3 col-xs-3">
-                                    <img src="{% static 'assets/img/chet_faker_2.jpg' %}" alt="Circle Image" class="img-circle img-no-padding img-responsive">
-                                </div>
-                                <div class="col-lg-9 col-md-9 col-xs-9 description">
-                                    <h5>Chet Faker</h5>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="row">
-                                <div class="col-lg-3 col-md-3 col-xs-3">
-                                    <img src="{% static 'assets/img/drake.jpg' %}" alt="Circle Image" class="img-circle img-no-padding img-responsive">
-                                </div>
-                                <div class="col-lg-9 col-md-9 col-xs-9 description">
-                                    <h5>Drake</h5>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="row">
-                                <div class="col-lg-3 col-md-3 col-xs-3">
-                                    <img src="{% static 'assets/img/cristina.jpg' %} " alt="Circle Image" class="img-circle img-no-padding img-responsive">
-                                </div>
-                                <div class="col-lg-9 col-md-9 col-xs-9 description">
-                                    <h5>Cristina Conacel</h5>
-                                </div>
-                            </div>
-                        </li>
+                        
 
                     </ul>
                 </div>
@@ -57,85 +28,35 @@
                 <div class="demo-card" style="margin: auto; width: 100%; max-width: 100%; margin-top: 30px; max-height: 650px; overflow-y: scroll;">
                     <div class="tweets">
                         
-                        <div class="media">
-                            <a class="pull-left" href="#">
+                        <div class="media" v-for="message in conversation_messages">
+                            <a v-if="message.sender_id != user_id" class="pull-left" href="#">
                                 <div class="avatar">
                                     <img class="media-object" alt="Tim Picture" src="{% static 'assets/img/rihanna.jpg' %}">
                                 </div>
                             </a>
-                            <div class="media-body">
-                                <strong>Rihanna</strong>
-                                <h5 class="media-heading"><small>21.10.2020 15:40:20</small></h5>
-                                <p>
-                                Hello hello bitch better have my mistletoe #rihannaxstance
-                                bitch better have my mistletoe #rihannaxstance
-                                </p>
-
-                            </div>
-                        </div> 
-
-                        
-                        <div class="media">
-                            <a class="pull-right" href="#">
+                            <a v-else class="pull-right" href="#">
                                 <div class="avatar">
                                     <img class="media-object" alt="Tim Picture" src="{% static 'assets/img/khaled.jpg' %}">
                                 </div>
                             </a>
                             <div class="media-body">
-                                <strong>Khaleed</strong>
-                                <h5 class="media-heading"><small>21.10.2020 15:43:11</small></h5>
+                                <strong v-if="message.sender_id != user_id">[[ message.sender_user.first_name ]] [[ message.sender_user.last_name ]]</strong>
+                                <strong v-else>Me</strong>
+                                <h5 class="media-heading"><small>[[ message.datetime ]]</small></h5>
                                 <p>
-                                bitch better have my mistletoe #rihannaxstance
-                                bitch better have my mistletoe #rihannaxstance
-                                bitch better have my mistletoe #rihannaxstance
-                                bitch better have my mistletoe #rihannaxstance
+                                [[ message.text ]]
                                 </p>
-
                             </div>
                         </div> 
 
-                        <div class="media">
-                            <a class="pull-left" href="#">
-                                <div class="avatar">
-                                    <img class="media-object" alt="Tim Picture" src="{% static 'assets/img/rihanna.jpg' %}">
-                                </div>
-                            </a>
-                            <div class="media-body">
-                                <strong>Rihanna</strong>
-                                <h5 class="media-heading"><small>21.10.2020 15:44:23</small></h5>
-                                <p>
-                                bitch better have my mistletoe #rihannaxstance
-                                </p>
-
+                        <form @submit.prevent="sendMessageSubmit" id="send_message_form" class="commentsForm">
+                            <div style="margin-top: 10px">
+                                    <textarea class="form-control" placeholder="Say something nice..." v-model="newtext" rows="4"></textarea>
                             </div>
-                        </div> 
-
-                        <div class="media">
-                            <a class="pull-left" href="#">
-                                <div class="avatar">
-                                    <img class="media-object" alt="Tim Picture" src="{% static 'assets/img/rihanna.jpg' %}">
-                                </div>
-                            </a>
-                            <div class="media-body">
-                                <strong>Rihanna</strong>
-                                <h5 class="media-heading"><small>21.10.2020 15:44:43</small></h5>
-                                <p>
-                                bitch better have my mistletoe lalala
-                                bitch better have my mistletoe #rihannaxstance
-                                bitch better have my mistletoe #rihannaxstance
-                                bitch better have my mistletoe #rihannaxstance
-                                bitch better have my mistletoe #rihannaxstance
-                                bitch better have my mistletoe #rihannaxstance
-                                bitch better have my mistletoe #rihannaxstance
-                                bitch better have my mistletoe #rihannaxstance
-                                </p>
-
+                            <div class="btn-area pull-right">
+                                <button type="submit" class="btn btn-primary">Send Message</button>
                             </div>
-                        </div> 
-
-                        <div style="margin-top: 10px">
-                                <textarea class="form-control" placeholder="Say something nice..." rows="4"></textarea>
-                        </div>
+                        </form>
                         
                     </div>
                 </div>
@@ -144,3 +65,146 @@
     </div> 
 
 {% endblock content %}
+
+
+{% block extra_js %}
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+<script>
+
+    Vue.mixin({ delimiters: ['[[',']]'] });
+    
+    var messagingapp = new Vue({
+        el: '#messagingapp',
+        data: {
+            'user_id': '{{ user.id }}',
+            'users': [],
+            'messages': [],
+            'conversation_messages': [],
+            'conversations': {},
+            'conversations_read_status': {},
+            'target_user_messages': [],
+            'conversation_id': '-1',
+            'target_user_id': '-1',
+            'newtext': '',
+            'new_message_api_url': "{% url 'messaging:new_message_api' sender_id=user.id receiver_id=222 message_text=333 %}"
+            
+
+        },
+        methods: {
+            getMessages: function() {
+                var url = "{% url 'messaging:messages_list_api' %}";
+                
+                $.get(url, function (response, status) {
+                    messagingapp.messages = response;
+                    console.log(messagingapp.messages);
+
+                    messagingapp.conversations = {};
+                    messagingapp.conversations['-1']=[];
+                    messagingapp.conversations_read_status = {};
+                    
+                    for (i = 0; i < messagingapp.messages.length; i++) {
+                        var message = messagingapp.messages[i];
+
+                        if (message.conversation_id in messagingapp.conversations){
+                            messagingapp.conversations[message.conversation_id].push(message);
+                        }
+                        else{
+                            messagingapp.conversations[message.conversation_id] = [];
+                            messagingapp.conversations[message.conversation_id].push(message);
+                        }
+                    }
+
+                    messagingapp.getConversationMessages();
+
+
+                    /*
+                    messagingapp.target_user_messages = [];
+                    if(messagingapp.target_user_id.toString()!=="-1"){
+                        if(messagingapp.user_id<messagingapp.target_user_id){
+                            messagingapp.conversation_id = messagingapp.target_user_id+'_'+messagingapp.user_id;
+                        }
+                        else{
+                            messagingapp.conversation_id = messagingapp.user_id+'_'+messagingapp.target_user_id
+                        }
+
+                        var i;
+                        for (i = 0; i < messagingapp.messages.length; i++) {
+                            var message = messagingapp.messages[i];
+
+                            if(message.conversation_id === messagingapp.conversation_id){
+                                messagingapp.target_user_messages.push(message);
+                            }
+                        }
+                    }*/
+
+                    //mark current conversation messages that you are receiver of as read
+                    /*if(messagingapp.conversation_id!==''){
+                        var read_api = messagingapp.read_actionurl.replace("999", encodeURIComponent(messagingapp.conversation_id.replace(/[\r\n]+/g,' ').trim()));
+                        $.get(read_api, function (response, status) {
+                            //
+                        });
+                        messagingapp.conversations_read_status[messagingapp.conversation_id] = true
+                    }*/
+
+                    /*
+                    if (messagingapp.messages.length > messagingapp.messages_count){
+                        messagingapp.messages_count = messagingapp.messages.length;
+
+                        // MESSAGE PANEL SCROLL
+                        messagingapp.messagePanel = $(".panel-message.fixed-panel");
+                        if(messagingapp.messagePanel !== undefined && messagingapp.messagePanel.length > 0){
+                            messagingapp.messagePanel.scrollTop(messagingapp.messagePanel[0].scrollHeight);
+                        }
+                    }*/
+                });
+            },
+            getConversationMessages: function(){
+                this.conversation_messages = [];
+                this.conversation_messages = this.conversations[this.conversation_id];
+            },
+            getUsers: function() {
+                var url = "{% url 'messaging:users_api' %}";
+                
+                $.get(url, function (response, status) {
+                    messagingapp.users = response;
+                    console.log(messagingapp.users);
+                });
+            },
+            selectConversation: function(target_user_id){
+                this.conversation_id ='-1';
+                this.target_user_id = target_user_id;
+
+                if(this.user_id<target_user_id)
+                    this.conversation_id = target_user_id+'_'+this.user_id;
+                else
+                    this.conversation_id = this.user_id+'_'+target_user_id;
+                
+                console.log('conversation_id: ' + this.conversation_id);
+                this.getConversationMessages();
+            },
+            sendMessageSubmit() {
+                var url = this.new_message_api_url.replace("222", this.target_user_id).replace("333", encodeURIComponent(this.newtext.replace(/[\r\n]+/g,' ').trim()));
+
+                $.get(url, function (response, status) {
+                    messagingapp.getMessages();
+                    messagingapp.newtext = '';
+                });
+            }
+            
+        },
+
+        mounted: function() {
+            console.log(this.user_id);
+            this.getUsers();
+            this.getMessages();
+
+            setInterval(function () {
+                this.getMessages();
+            }.bind(this), 500);
+        }
+    });
+
+</script>
+{% endblock extra_js %}
