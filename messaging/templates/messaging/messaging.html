@@ -2,62 +2,89 @@
 {% load static %}
 
 {% block content %}
-
-    <div class="container" id="messagingapp">
-        <div class="row">
-            <div class="col-lg-4 col-md-4 col-lg-offset-1 col-md-offset-1 col-sm-7 col-xs-12">
-                <div class="demo-card" style="margin: auto; margin-top: 30px;">
-                    <h6 class="text-muted">Who do you want to talk to?</h6>
-                    <ul class="list-unstyled follows">
-                        <li v-for="user in users">
-                            <div class="row" v-on:click="selectConversation(user.id)">
-                                <div class="col-lg-3 col-md-3 col-xs-3">
-                                    <img src="{% static 'assets/img/flume.jpg' %}" alt="Circle Image" class="img-circle img-no-padding img-responsive">
+    <div id="messagingapp">
+        <div class="container" style="margin-top: 7%;">
+            <div class="row">
+                
+                <div class="col-lg-4 col-md-4 col-lg-offset-1 col-md-offset-1 col-sm-7 hidden-xs">
+                    <div class="demo-card" style="margin: auto; margin-top: 30px;">
+                        <h6 class="text-muted">Who do you want to talk to?</h6>
+                        <ul class="list-unstyled follows">
+                            <li v-for="user in users">
+                                <div class="row" v-on:click="selectConversation(user.id)">
+                                    <div class="col-lg-3 col-md-3 col-xs-3">
+                                        <img src="{% static 'assets/img/flume.jpg' %}" alt="Circle Image" class="img-circle img-no-padding img-responsive">
+                                    </div>
+                                    <div class="col-lg-9 col-md-9 col-xs-9 description">
+                                        <h5>[[ user.first_name ]] [[ user.last_name ]]</h5>
+                                    </div>
                                 </div>
-                                <div class="col-lg-9 col-md-9 col-xs-9 description">
-                                    <h5>[[ user.first_name ]] [[ user.last_name ]]</h5>
-                                </div>
-                            </div>
-                        </li>
-                        
-
-                    </ul>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
-            <div class="col-lg-7 col-md-7 col-sm-5 col-xs-12">
-                <div class="demo-card" style="margin: auto; width: 100%; max-width: 100%; margin-top: 30px; max-height: 650px; overflow-y: scroll;">
-                    <div class="tweets">
-                        
-                        <div class="media" v-for="message in conversation_messages">
-                            <a v-if="message.sender_id != user_id" class="pull-left" href="#">
-                                <div class="avatar">
-                                    <img class="media-object" alt="Tim Picture" src="{% static 'assets/img/rihanna.jpg' %}">
-                                </div>
-                            </a>
-                            <a v-else class="pull-right" href="#">
-                                <div class="avatar">
-                                    <img class="media-object" alt="Tim Picture" src="{% static 'assets/img/khaled.jpg' %}">
-                                </div>
-                            </a>
-                            <div class="media-body">
-                                <strong v-if="message.sender_id != user_id">[[ message.sender_user.first_name ]] [[ message.sender_user.last_name ]]</strong>
-                                <strong v-else>Me</strong>
-                                <h5 class="media-heading"><small>[[ message.datetime ]]</small></h5>
-                                <p>
-                                [[ message.text ]]
-                                </p>
-                            </div>
-                        </div> 
 
-                        <form @submit.prevent="sendMessageSubmit" id="send_message_form" class="commentsForm">
-                            <div style="margin-top: 10px">
-                                    <textarea class="form-control" placeholder="Say something nice..." v-model="newtext" rows="4"></textarea>
-                            </div>
-                            <div class="btn-area pull-right">
-                                <button type="submit" class="btn btn-primary">Send Message</button>
-                            </div>
-                        </form>
-                        
+                <div v-if="conversation_id == -1" class="col-xs-12 visible-xs"> <!--hidden-xs-->
+                    <div class="demo-card" style="margin: auto; margin-top: 30px;">
+                        <h6 class="text-muted">Who do you want to talk to???</h6>
+                        <ul class="list-unstyled follows">
+                            <li v-for="user in users">
+                                <div class="row" v-on:click="selectConversation(user.id)">
+                                    <div class="col-lg-3 col-md-3 col-xs-3">
+                                        <img src="{% static 'assets/img/flume.jpg' %}" alt="Circle Image" class="img-circle img-no-padding img-responsive">
+                                    </div>
+                                    <div class="col-lg-9 col-md-9 col-xs-9 description">
+                                        <h5>[[ user.first_name ]] [[ user.last_name ]]</h5>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-lg-7 col-md-7 col-sm-5 col-xs-12">
+                    <div class="demo-card" style="margin: auto; width: 100%; max-width: 100%; margin-top: 30px; max-height: 650px; overflow-y: scroll;">
+                        <div class="tweets">
+                            
+                            <template v-if="conversation_id != -1">
+                                <div class="media" v-for="message in conversation_messages">
+                                    <a v-if="message.sender_id != user_id" class="pull-left" href="#">
+                                        <div class="avatar">
+                                            <img class="media-object" alt="Tim Picture" src="{% static 'assets/img/rihanna.jpg' %}">
+                                        </div>
+                                    </a>
+                                    <a v-else class="pull-right" href="#">
+                                        <div class="avatar">
+                                            <img class="media-object" alt="Tim Picture" src="{% static 'assets/img/khaled.jpg' %}">
+                                        </div>
+                                    </a>
+                                    <div class="media-body">
+                                        <strong v-if="message.sender_id != user_id">[[ message.sender_user.first_name ]] [[ message.sender_user.last_name ]]</strong>
+                                        <strong v-else>Me</strong>
+                                        <h5 class="media-heading"><small>[[ message.datetime ]]</small></h5>
+                                        <p>
+                                        [[ message.text ]]
+                                        </p>
+                                    </div>
+                                </div> 
+
+                                <form @submit.prevent="sendMessageSubmit" id="send_message_form" class="commentsForm">
+                                    <div style="margin-top: 10px">
+                                            <textarea class="form-control" placeholder="Say something nice..." v-model="newtext" rows="4"></textarea>
+                                    </div>
+                                    <div class="btn-area pull-right">
+                                        <button type="submit" class="btn btn-primary">Send Message</button>
+                                    </div>
+                                </form>
+                                <div class="btn-area pull-left">
+                                        <button v-on:click="exitConversation" class="btn btn-primary visible-xs">Back</button>
+                                </div>
+                            </template>
+                            <template v-else>
+                                <h6 class="text-muted">Select a conversation to start.</h6>
+                            </template>
+                            
+                        </div>
                     </div>
                 </div>
             </div>
@@ -173,7 +200,7 @@
                 });
             },
             selectConversation: function(target_user_id){
-                this.conversation_id ='-1';
+                this.conversation_id = '-1';
                 this.target_user_id = target_user_id;
 
                 if(this.user_id<target_user_id)
@@ -183,6 +210,9 @@
                 
                 console.log('conversation_id: ' + this.conversation_id);
                 this.getConversationMessages();
+            },
+            exitConversation: function(){
+                this.conversation_id = '-1';
             },
             sendMessageSubmit() {
                 var url = this.new_message_api_url.replace("222", this.target_user_id).replace("333", encodeURIComponent(this.newtext.replace(/[\r\n]+/g,' ').trim()));
