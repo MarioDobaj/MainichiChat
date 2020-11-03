@@ -172,11 +172,8 @@
             'conversation_id': '-1',
             'target_user_id': '-1',
             'newtext': '',
-            //'messagesBottom': {},
             'scrollPending': 0,
             'new_message_api_url': "{% url 'messaging:new_message_api' sender_id=user.id receiver_id=222 message_text=333 %}"
-            
-
         },
         methods: {
             getMessages: function() {
@@ -184,7 +181,6 @@
                 
                 $.get(url, function (response, status) {
                     messagingapp.messages = response;
-                    console.log(messagingapp.messages);
 
                     messagingapp.conversations = {};
                     messagingapp.conversations['-1']=[];
@@ -203,47 +199,6 @@
                     }
 
                     messagingapp.getConversationMessages();
-
-
-                    /*
-                    messagingapp.target_user_messages = [];
-                    if(messagingapp.target_user_id.toString()!=="-1"){
-                        if(messagingapp.user_id<messagingapp.target_user_id){
-                            messagingapp.conversation_id = messagingapp.target_user_id+'_'+messagingapp.user_id;
-                        }
-                        else{
-                            messagingapp.conversation_id = messagingapp.user_id+'_'+messagingapp.target_user_id
-                        }
-
-                        var i;
-                        for (i = 0; i < messagingapp.messages.length; i++) {
-                            var message = messagingapp.messages[i];
-
-                            if(message.conversation_id === messagingapp.conversation_id){
-                                messagingapp.target_user_messages.push(message);
-                            }
-                        }
-                    }*/
-
-                    //mark current conversation messages that you are receiver of as read
-                    /*if(messagingapp.conversation_id!==''){
-                        var read_api = messagingapp.read_actionurl.replace("999", encodeURIComponent(messagingapp.conversation_id.replace(/[\r\n]+/g,' ').trim()));
-                        $.get(read_api, function (response, status) {
-                            //
-                        });
-                        messagingapp.conversations_read_status[messagingapp.conversation_id] = true
-                    }*/
-
-                    /*
-                    if (messagingapp.messages.length > messagingapp.messages_count){
-                        messagingapp.messages_count = messagingapp.messages.length;
-
-                        // MESSAGE PANEL SCROLL
-                        messagingapp.messagePanel = $(".panel-message.fixed-panel");
-                        if(messagingapp.messagePanel !== undefined && messagingapp.messagePanel.length > 0){
-                            messagingapp.messagePanel.scrollTop(messagingapp.messagePanel[0].scrollHeight);
-                        }
-                    }*/
                 });
             },
             getConversationMessages: function(){
@@ -255,7 +210,6 @@
                 
                 $.get(url, function (response, status) {
                     messagingapp.users = response;
-                    console.log(messagingapp.users);
                 });
             },
             selectConversation: function(target_user_id){
@@ -267,7 +221,6 @@
                 else
                     this.conversation_id = this.user_id+'_'+target_user_id;
                 
-                console.log('conversation_id: ' + this.conversation_id);
                 this.getConversationMessages();
                 this.scrollPending = 1;
             },
@@ -304,7 +257,6 @@
         },
 
         mounted: function() {
-            console.log(this.user_id);
             this.getUsers();
             this.getMessages();
 
