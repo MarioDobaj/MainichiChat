@@ -13,7 +13,7 @@
                             <li v-for="user in users">
                                 <div class="row" v-on:click="selectConversation(user.id)">
                                     <div class="col-lg-3 col-md-3 col-xs-3">
-                                        <img src="{% static 'assets/img/flume.jpg' %}" alt="Circle Image" class="img-circle img-no-padding img-responsive">
+                                        <img src="{% static 'assets/img/placeholder.jpg' %}" alt="Circle Image" class="img-circle img-no-padding img-responsive">
                                     </div>
                                     <div class="col-lg-9 col-md-9 col-xs-9 description">
                                         <h5>[[ user.first_name ]] [[ user.last_name ]]</h5>
@@ -32,7 +32,7 @@
                             <li v-for="user in users">
                                 <div class="row" v-on:click="selectConversation(user.id)">
                                     <div class="col-lg-3 col-md-3 col-xs-3">
-                                        <img src="{% static 'assets/img/flume.jpg' %}" alt="Circle Image" class="img-circle img-no-padding img-responsive">
+                                        <img src="{% static 'assets/img/placeholder.jpg' %}" alt="Circle Image" class="img-circle img-no-padding img-responsive">
                                     </div>
                                     <div class="col-lg-9 col-md-9 col-xs-9 description">
                                         <h5>[[ user.first_name ]] [[ user.last_name ]]</h5>
@@ -52,12 +52,12 @@
                                 <div class="media" v-for="message in conversation_messages">
                                     <a v-if="message.sender_id != user_id" class="pull-left" href="#">
                                         <div class="avatar" v-on:click="scrollDown">
-                                            <img class="media-object" alt="Tim Picture" src="{% static 'assets/img/rihanna.jpg' %}">
+                                            <img class="media-object" alt="Tim Picture" src="{% static 'assets/img/placeholder.jpg' %}">
                                         </div>
                                     </a>
                                     <a v-else class="pull-right" href="#">
                                         <div class="avatar">
-                                            <img class="media-object" alt="Tim Picture" src="{% static 'assets/img/khaled.jpg' %}">
+                                            <img class="media-object" alt="Tim Picture" src="{% static 'assets/img/placeholder.jpg' %}">
                                         </div>
                                     </a>
                                     <div class="media-body">
@@ -98,12 +98,12 @@
                                 <div class="media" v-for="message in conversation_messages">
                                     <a v-if="message.sender_id != user_id" class="pull-left" href="#">
                                         <div class="avatar">
-                                            <img class="media-object" alt="Tim Picture" src="{% static 'assets/img/rihanna.jpg' %}">
+                                            <img class="media-object" alt="Tim Picture" src="{% static 'assets/img/placeholder.jpg' %}">
                                         </div>
                                     </a>
                                     <a v-else class="pull-right" href="#">
                                         <div class="avatar">
-                                            <img class="media-object" alt="Tim Picture" src="{% static 'assets/img/khaled.jpg' %}">
+                                            <img class="media-object" alt="Tim Picture" src="{% static 'assets/img/placeholder.jpg' %}">
                                         </div>
                                     </a>
                                     <div class="media-body">
@@ -302,7 +302,7 @@
 
             setInterval(function () {
                 this.getMessages();
-            }.bind(this), 500);
+            }.bind(this), 400);
 
             setInterval(function () {
                 this.scrollDown();
