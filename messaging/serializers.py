@@ -1,15 +1,18 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from .models import Message
+import datetime
+
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'first_name', 'last_name', 'email')
+        fields = ('id', 'username', 'first_name', 'last_name', 'email')
 
 class MessageSerializer(serializers.ModelSerializer):
     sender_user = UserSerializer()
     receiver_user = UserSerializer()
+    datetime = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
 
     class Meta:
         model = Message
