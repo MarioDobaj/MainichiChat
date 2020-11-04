@@ -36,11 +36,13 @@ class MessagesList(generics.ListAPIView):
     permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
+        print('message read started')
         user_id = self.request.user.id
         
         queryset = Message.objects.all()
         queryset = queryset.filter(sender_id = user_id) | queryset.filter(receiver_id = user_id)
         queryset = queryset.order_by('datetime', 'id')
+        print('message read end?')
         return queryset
 
 class NewMessage(generics.ListAPIView):
@@ -72,21 +74,5 @@ class NewMessage(generics.ListAPIView):
 
         new_message, created = Message.objects.get_or_create(conversation_id=conversation_id, datetime=d_truncated, sender_id=sender_id, receiver_id=receiver_id, sender_user=sender, receiver_user=receiver, text=message_text)
         new_message.save()
-        
-        return Message.objects.none()
-
-
-class MarkMessagesAsRead(generics.ListAPIView):
-    serializer_class = MessageSerializer
-    permission_classes = (IsAuthenticated,)
-
-    def get_queryset(self):
-        user_id = self.request.user.id
-        conversation_id = self.kwargs.get('conversation_id', "")
-        
-        queryset = Message.objects.all().filter(receiver_id = user_id).filter(conversation_id = conversation_id)
-        for message in queryset:
-            message.is_read = True
-            message.save()
         
         return Message.objects.none()

@@ -185,32 +185,41 @@
             'target_user_id': '-1',
             'newtext': '',
             'scrollPending': 0,
+            'pauseMessagesResfreshing': 0,
             'new_message_api_url': "{% url 'messaging:new_message_api' sender_id=user.id receiver_id=222 message_text=333 %}"
         },
         methods: {
             getMessages: function() {
+                if(this.pauseMessagesResfreshing === 0) this.pauseMessagesResfreshing = 1;
                 var url = "{% url 'messaging:messages_list_api' %}";
                 
+                console.log('get messages request start: ' + url);
+
                 $.get(url, function (response, status) {
-                    messagingapp.messages = response;
+                    console.log('get messages request reponded');
 
-                    messagingapp.conversations = {};
-                    messagingapp.conversations['-1']=[];
-                    messagingapp.conversations_read_status = {};
-                    
-                    for (i = 0; i < messagingapp.messages.length; i++) {
-                        var message = messagingapp.messages[i];
+                    if(messagingapp.pauseMessagesResfreshing === 1){
+                        messagingapp.messages = response;
+                        messagingapp.conversations = {};
+                        messagingapp.conversations['-1']=[];
+                        messagingapp.conversations_read_status = {};
+                        
+                        for (i = 0; i < messagingapp.messages.length; i++) {
+                            var message = messagingapp.messages[i];
 
-                        if (message.conversation_id in messagingapp.conversations){
-                            messagingapp.conversations[message.conversation_id].push(message);
+                            if (message.conversation_id in messagingapp.conversations){
+                                messagingapp.conversations[message.conversation_id].push(message);
+                            }
+                            else{
+                                messagingapp.conversations[message.conversation_id] = [];
+                                messagingapp.conversations[message.conversation_id].push(message);
+                            }
                         }
-                        else{
-                            messagingapp.conversations[message.conversation_id] = [];
-                            messagingapp.conversations[message.conversation_id].push(message);
-                        }
+                        if(messagingapp.pauseMessagesResfreshing === 1) messagingapp.getConversationMessages();
                     }
+                    messagingapp.pauseMessagesResfreshing = 0;
 
-                    messagingapp.getConversationMessages();
+                    console.log('get messages request response processed');
                 });
             },
             getConversationMessages: function(){
@@ -258,6 +267,9 @@
                 }
             },
             sendMessageSubmit() {
+                if(this.pauseMessagesResfreshing === 2)return;
+                this.pauseMessagesResfreshing = 2;
+
                 var d = new Date();
                 var year = d.getFullYear() ;
                 var month = ((+d.getMonth()+1)<10 ? '0' : '') + (+d.getMonth()+1); 
@@ -268,8 +280,6 @@
                 var dateString = year+'-'+month+'-'+day+' '+hours+':'+minutes+':'+seconds;
                 
                 var messageText = this.newtext;
-                this.newtext = '';
-
                 var newMessageObject = {};
                 newMessageObject.sender_id = this.user_id;
                 newMessageObject.datetime = dateString;
@@ -278,10 +288,11 @@
                 this.conversations[this.conversation_id].push(newMessageObject);
                 this.getConversationMessages();
 
-                var url = this.new_message_api_url.replace("222", this.target_user_id).replace("333", encodeURIComponent(messageText.replace(/[\r\n]+/g,' ').trim()));
+
+                var url = this.new_message_api_url.replace("222", this.target_user_id).replace("333", encodeURIComponent(this.newtext.replace(/[\r\n]+/g,' ').trim()));
                 $.get(url, function (response, status) {
-                    //messagingapp.getMessages();
                 });
+                this.newtext = '';
             }
             
         },
@@ -291,8 +302,8 @@
             this.getMessages();
 
             setInterval(function () {
-                this.getMessages();
-            }.bind(this), 500);
+                if(this.pauseMessagesResfreshing === 0)this.getMessages();
+            }.bind(this), 300);
 
             setInterval(function () {
                 this.scrollDown();
