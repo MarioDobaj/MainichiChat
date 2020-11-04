@@ -4,7 +4,6 @@ from django.contrib.auth.decorators import login_required
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 from datetime import datetime
-
 from django.contrib.auth.models import User
 from .models import Message
 from .serializers import UserSerializer
@@ -14,12 +13,7 @@ from .serializers import MessageSerializer
 
 @login_required(login_url='/')
 def index(request):
-    serializer_class = UserSerializer
-    usersQueryset = User.objects.all()
-
-    context = {
-    }
-    return render(request, 'messaging/messaging.html', context)
+    return render(request, 'messaging/messaging.html')
 
 class UsersList(generics.ListAPIView):
     serializer_class = UserSerializer
@@ -27,7 +21,6 @@ class UsersList(generics.ListAPIView):
 
     def get_queryset(self):
         user_id = self.request.user.id
-
         queryset = User.objects.all().exclude(id=user_id)
         return queryset
 
@@ -37,7 +30,6 @@ class MessagesList(generics.ListAPIView):
 
     def get_queryset(self):
         user_id = self.request.user.id
-        
         queryset = Message.objects.all()
         queryset = queryset.filter(sender_id = user_id) | queryset.filter(receiver_id = user_id)
         queryset = queryset.order_by('datetime', 'id')
@@ -49,7 +41,6 @@ class NewMessage(generics.ListAPIView):
 
     def get_queryset(self):
         user_id = self.request.user.id
-
         sender_id = self.kwargs.get('sender_id', "")
         receiver_id = self.kwargs.get('receiver_id', "")
         message_text = self.kwargs.get('message_text', "")
@@ -63,7 +54,7 @@ class NewMessage(generics.ListAPIView):
             conversation_id = str(receiver_id)+'_'+str(sender_id)
         else:
             conversation_id = str(sender_id)+'_'+str(receiver_id)
-            
+
         if conversation_id == "0_0":
             return Message.objects.none()
 
