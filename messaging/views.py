@@ -36,13 +36,11 @@ class MessagesList(generics.ListAPIView):
     permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
-        print('message read started')
         user_id = self.request.user.id
         
         queryset = Message.objects.all()
         queryset = queryset.filter(sender_id = user_id) | queryset.filter(receiver_id = user_id)
         queryset = queryset.order_by('datetime', 'id')
-        print('message read end?')
         return queryset
 
 class NewMessage(generics.ListAPIView):
@@ -65,7 +63,7 @@ class NewMessage(generics.ListAPIView):
             conversation_id = str(receiver_id)+'_'+str(sender_id)
         else:
             conversation_id = str(sender_id)+'_'+str(receiver_id)
-
+            
         if conversation_id == "0_0":
             return Message.objects.none()
 

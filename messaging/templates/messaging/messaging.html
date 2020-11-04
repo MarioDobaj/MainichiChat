@@ -87,9 +87,9 @@
                                     </div>
                                 </div> 
 
-                                <form @submit.prevent="sendMessageSubmit" id="send_message_form" class="commentsForm">
+                                <form @submit.prevent="sendMessageSubmit1" id="send_message_form" class="commentsForm">
                                     <div style="margin-top: 10px">
-                                            <input class="form-control" placeholder="Say something nice..." v-model="newtext" rows="2" @keyup.enter="sendMessageSubmit"></textarea>
+                                            <input class="form-control" placeholder="Say something nice..." v-model="newtext1" rows="2" @keyup.enter="sendMessageSubmit1"></textarea>
                                     </div>
                                     <div class="btn-area pull-right">
                                         <button type="submit" class="btn btn-primary">Send Message</button>
@@ -136,9 +136,9 @@
                                     </div>
                                 </div> 
 
-                                <form @submit.prevent="sendMessageSubmit" id="send_message_form" class="commentsForm">
+                                <form @submit.prevent="sendMessageSubmit2" id="send_message_form" class="commentsForm">
                                     <div style="margin-top: 10px">
-                                            <input class="form-control" placeholder="Say something nice..." v-model="newtext" rows="2" @keyup.enter="sendMessageSubmit"></textarea>
+                                            <input class="form-control" placeholder="Say something nice..." v-model="newtext2" rows="2" @keyup.enter="sendMessageSubmit2"></textarea>
                                     </div>
                                     <div class="btn-area pull-right">
                                         <button type="submit" class="btn btn-primary">Send Message</button>
@@ -183,6 +183,8 @@
             'target_user_messages': [],
             'conversation_id': '-1',
             'target_user_id': '-1',
+            'newtext1': '',
+            'newtext2': '',
             'newtext': '',
             'scrollPending': 0,
             'pauseMessagesResfreshing': 0,
@@ -266,10 +268,24 @@
                     this.scrollPending = 2;
                 }
             },
+            sendMessageSubmit1(){
+                if(this.newtext1 != ''){
+                    this.newtext = this.newtext1;
+                    this.newtext1 = '';
+                    this.newtext2 = '';
+                    this.sendMessageSubmit();
+                }
+            },
+            sendMessageSubmit2(){
+                if(this.newtext2 != ''){
+                    this.newtext = this.newtext2;
+                    this.newtext1 = '';
+                    this.newtext2 = '';
+                    this.sendMessageSubmit();
+                }
+            },
             sendMessageSubmit() {
-                if(this.pauseMessagesResfreshing === 2)return;
                 this.pauseMessagesResfreshing = 2;
-
                 var d = new Date();
                 var year = d.getFullYear() ;
                 var month = ((+d.getMonth()+1)<10 ? '0' : '') + (+d.getMonth()+1); 
@@ -279,15 +295,14 @@
                 var seconds = (d.getSeconds()<10? '0' : '') + d.getSeconds();
                 var dateString = year+'-'+month+'-'+day+' '+hours+':'+minutes+':'+seconds;
                 
-                var messageText = this.newtext;
                 var newMessageObject = {};
                 newMessageObject.sender_id = this.user_id;
                 newMessageObject.datetime = dateString;
-                newMessageObject.text = messageText;
+                newMessageObject.text = this.newtext;
 
+                if(this.conversations[this.conversation_id] === undefined) this.conversations[this.conversation_id] = [];
                 this.conversations[this.conversation_id].push(newMessageObject);
                 this.getConversationMessages();
-
 
                 var url = this.new_message_api_url.replace("222", this.target_user_id).replace("333", encodeURIComponent(this.newtext.replace(/[\r\n]+/g,' ').trim()));
                 $.get(url, function (response, status) {
@@ -303,7 +318,7 @@
 
             setInterval(function () {
                 if(this.pauseMessagesResfreshing === 0)this.getMessages();
-            }.bind(this), 300);
+            }.bind(this), 500);
 
             setInterval(function () {
                 this.scrollDown();
