@@ -41,12 +41,18 @@
 				<!-- Collect the nav links, forms, and other content for toggling -->
 				<div class="collapse navbar-collapse" id="navigation-example-2">
 				<ul class="nav navbar-nav navbar-right">
+					{% if user.is_authenticated %}
 					<li>
-						<a href="{% url 'homepage:index' %}" class="btn btn-simple">Login</a>
+						<a href="{% url 'homepage:index' %}" class="btn btn-simple">Logout</a>
 					</li>
 					<li>
 						<a href="{% url 'messaging:index' %}" class="btn btn-simple">Messaging</a>
 					</li>
+					{% else %}
+					<li>
+						<a href="{% url 'homepage:index' %}" class="btn btn-simple">Login</a>
+					</li>
+					{% endif %}
 				</ul>
 				</div><!-- /.navbar-collapse -->
 			</div><!-- /.container-->

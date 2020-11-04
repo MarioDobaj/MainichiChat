@@ -100,7 +100,7 @@
                                 </div>
                             </template>
                             <template v-else>
-                                <h6 class="text-muted">Select a conversation to start.</h6>
+                                <h6 class="text-muted">Select a person, to start a conversation with.</h6>
                             </template>
                             
                         </div>
@@ -193,12 +193,9 @@
         methods: {
             getMessages: function() {
                 if(this.pauseMessagesResfreshing === 0) this.pauseMessagesResfreshing = 1;
-                var url = "{% url 'messaging:messages_list_api' %}";
-                
-                console.log('get messages request start: ' + url);
 
+                var url = "{% url 'messaging:messages_list_api' %}";
                 $.get(url, function (response, status) {
-                    console.log('get messages request reponded');
 
                     if(messagingapp.pauseMessagesResfreshing === 1){
                         messagingapp.messages = response;
@@ -220,8 +217,6 @@
                         if(messagingapp.pauseMessagesResfreshing === 1) messagingapp.getConversationMessages();
                     }
                     messagingapp.pauseMessagesResfreshing = 0;
-
-                    console.log('get messages request response processed');
                 });
             },
             getConversationMessages: function(){
@@ -306,6 +301,7 @@
 
                 var url = this.new_message_api_url.replace("222", this.target_user_id).replace("333", encodeURIComponent(this.newtext.replace(/[\r\n]+/g,' ').trim()));
                 $.get(url, function (response, status) {
+                    messagingapp.getMessages();
                 });
                 this.newtext = '';
             }
