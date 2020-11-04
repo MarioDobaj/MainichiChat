@@ -79,7 +79,10 @@
                                             <template v-if="message.sender_user.first_name !== '' && message.sender_user.last_name !== ''">[[ message.sender_user.first_name ]] [[ message.sender_user.last_name ]]</template>
                                             <template v-else>[[ message.sender_user.username ]]</template>
                                         </strong>
-                                        <strong v-else>Me</strong>
+                                        <strong v-else>
+                                            <template v-if="message.receiver_user.first_name !== '' && message.receiver_user.last_name !== ''">[[ message.receiver_user.first_name ]] [[ message.receiver_user.last_name ]]</template>
+                                            <template v-else>[[ message.receiver_user.username ]]</template>
+                                        </strong>
                                         <h5 class="media-heading"><small>[[ message.datetime ]]</small></h5>
                                         <p>
                                         [[ message.text ]]
@@ -128,7 +131,10 @@
                                             <template v-if="message.sender_user.first_name !== '' && message.sender_user.last_name !== ''">[[ message.sender_user.first_name ]] [[ message.sender_user.last_name ]]</template>
                                             <template v-else>[[ message.sender_user.username ]]</template>
                                         </strong>
-                                        <strong v-else>Me</strong>
+                                        <strong v-else>
+                                            <template v-if="message.receiver_user.first_name !== '' && message.receiver_user.last_name !== ''">[[ message.receiver_user.first_name ]] [[ message.receiver_user.last_name ]]</template>
+                                            <template v-else>[[ message.receiver_user.username ]]</template>
+                                        </strong>
                                         <h5 class="media-heading"><small>[[ message.datetime ]]</small></h5>
                                         <p>
                                         [[ message.text ]]
