@@ -95,9 +95,9 @@ WSGI_APPLICATION = 'mainichi.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'd46qdd74taht9g',
-        'USER': 'djgjjymboosjjx',
-        'PASSWORD': '1b0df45651b192cf5620157e8af7bdf44ac5785e5ab2468703a2c7d4254bde6b',
+        'NAME': 'd4fj09t0p0snbs',
+        'USER': 'jziyropgayutee',
+        'PASSWORD': 'd0a5282c7d8509c9e9342d5a69f13f7e79a98e8d1a902af5019fd2a22001dc3a',
         'HOST': 'ec2-54-246-115-40.eu-west-1.compute.amazonaws.com',
         'PORT': '5432',
     }
